@@ -4,9 +4,22 @@ const Employee = require('../../lib/Employee');
 const router = require('express').Router();
 
 var emp = new Employee();
+
+//API route to get all employees or employees by query params.
 router.get('/employee', (req, res) => {
     
-    db.query(emp.select(), (err, rows) => {
+    let selectQuery='';
+    if(req.query.manager_id)
+    {
+        selectQuery = emp.getEmployeeByManager();
+    }
+    else
+    {
+        selectQuery = emp.getSelect();
+    }
+
+
+    db.query(selectQuery, (err, rows) => {
         if(err)
         {
             res.status(500).json({err: errorMessage});
@@ -60,6 +73,29 @@ router.post('/employee', (req, res)=> {
     })
 });
 
+router.put('employee:id', (req, res) => {
+    const params = [req.body.role_id,req.params.id];
+
+    db.query(emp.getUpdate(), params, (err, result)=> {
+        if(err)
+        {
+            res.status(400).json({errorMessage: err});
+            return;
+        }else if(!result.affectedRows)
+        {
+            res.json({
+                message: "Candidate not found"
+            });
+        }
+        else {
+            res.json({
+                message: 'Success',
+                changes : result.affectedRows,
+                data: req.body
+            });
+        };
+    });
+});
 
 router.delete('/employee:id', (req, res) => {
     var params =[req.params.id];
