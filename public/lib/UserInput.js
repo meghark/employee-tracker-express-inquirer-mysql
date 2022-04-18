@@ -21,7 +21,7 @@ class UserInput
         name : 'department',
         message: 'What is the name of the department?'}];
 
-        this.adRole = [{ 
+        this.addRole = [{ 
             type: 'prompt',
             name: 'rolename',
             message: 'What is the name of the role?'
@@ -76,19 +76,27 @@ class UserInput
                         name: 'manager',
                         message: 'Manager List:',
                         choices : this.employees
-         }];       
+         }];      
+
+         this.departmentList = [{
+            type: 'list',
+            name: 'department',
+            message: 'Department List:',
+            choices : this.employees
+    }];
 
     }
 
     async intializeApp()
     {
        let {operation} = await  inquirer.prompt(this.options);
+       let choice ='';
        console.log(operation);
        switch(operation)
        {
            case 'Add Employee':
-             let newEmpChoice =  await inquirer.prompt(this.addEmployee);
-             console.log(newEmpChoice);             
+             choice =  await inquirer.prompt(this.addEmployee);
+             console.log(choice);             
              this.intializeApp();  
              break;
             case 'View all Employees':
@@ -96,17 +104,20 @@ class UserInput
               this.intializeApp();
               break;
             case 'Update Employee Role':
-                let empRoleUpdate = await inquirer.prompt(this.updateEmployeRole);
-                console.log(empRoleUpdate);
+                choice = await inquirer.prompt(this.updateEmployeRole);
+                console.log(choice);
                 this.intializeApp();
                 break;
             case 'View Employees by Manager':
                 console.log("Choose Manager to show employees");
-                let choice = await inquirer.prompt(this.managerList);
-                console.log(this.employees);
+                choice = await inquirer.prompt(this.managerList);
+                console.log(choice);
                 this.intializeApp();
                 break;
             case 'View Employees by Department':
+                console.log("Choose department to show employees");
+                choice = await inquirer.prompt(this.departmentList);
+                console.log(choice);
                 this.intializeApp();
                 break;
             case 'Delete employees':

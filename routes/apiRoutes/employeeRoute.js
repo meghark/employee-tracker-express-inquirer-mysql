@@ -13,12 +13,13 @@ router.get('/employee', (req, res) => {
     {
         selectQuery = emp.getEmployeeByManager();
     }
-    else
+    else if(req.query.department_id)
     {
-        selectQuery = emp.getSelect();
+        selectQuery = emp.getEmployeesByDepartment();
     }
-
-
+    else{
+        selectQuery = emp.getSelect();
+    };
     db.query(selectQuery, (err, rows) => {
         if(err)
         {
@@ -31,6 +32,21 @@ router.get('/employee', (req, res) => {
         });
     });
 
+});
+
+//get all employees who are managers
+router.get('/manager', (req, res) => {    
+    db.query(emp.getEmployeeByManager(), (err, rows) => {
+        if(err)
+        {
+            res.status(500).json({err: errorMessage});
+            return;            
+        }
+        res.json({
+            message: 'success',
+            date: rows
+        });
+    })
 });
 
 router.get('/employee:id', (req, res) => {
