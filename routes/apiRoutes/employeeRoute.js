@@ -1,4 +1,3 @@
-const req = require('express/lib/request');
 const db = require('../../db/connection');
 const Employee = require('../../lib/Employee');
 const router = require('express').Router();
@@ -6,37 +5,72 @@ const router = require('express').Router();
 var emp = new Employee();
 
 //API route to get all employees or employees by query params.
-router.get('/employee', (req, res) => {
+router.get('/employees', (req, res) => {
     
     let selectQuery='';
-    if(req.query.manager_id)
+    let params =[];
+
+    //Api calls for a single manager, department etc.
+    if(req.query.manager)
     {
         selectQuery = emp.getEmployeeByManager();
+        if (typeof req.query.manager == 'string')
+        {
+            params =[req.query.manager]
+        }
+        else 
+        {
+            params = req.query.manager;
+        }
+
     }
-    else if(req.query.department_id)
+    else if(req.query.department)
     {
         selectQuery = emp.getEmployeesByDepartment();
+        if (typeof req.query.department == 'string')
+        {
+            params =[req.query.department]
+        }
+        else 
+        {
+            params = req.query.department;
+        }
+    };
+
+    if(params !=[])
+    {    
+        db.query(selectQuery,params,(err, rows) => {
+            if(err)
+            {
+                res.status(500).json({errorMessage: err});
+                return;            
+            }
+            res.json({
+                message: 'success',
+                data: rows
+            });
+        });
     }
     else{
-        selectQuery = emp.getSelect();
-    };
-    db.query(selectQuery, (err, rows) => {
-        if(err)
-        {
-            res.status(500).json({err: errorMessage});
-            return;            
-        }
-        res.json({
-            message: 'success',
-            date: rows
-        });
-    });
+            selectQuery = emp.getSelect();
+            db.query(selectQuery, (err, rows) => {
+                if(err)
+                {
+                    res.status(500).json({errorMessage: err});
+                    return;            
+                }
+                res.json({
+                    message: 'success',
+                    data: rows
+                });
+            });
+    }   
 
 });
 
 //get all employees who are managers
 router.get('/manager', (req, res) => {    
-    db.query(emp.getEmployeeByManager(), (err, rows) => {
+    db.query(emp.getManagers(), (err, rows) => {
         if(err)
         {
             res.status(500).json({err: errorMessage});
@@ -49,10 +83,10 @@ router.get('/manager', (req, res) => {
     })
 });
 
-router.get('/employee:id', (req, res) => {
+//Get a specific employee by id
+router.get('/employees/:id', (req, res) => {
     var id = [req.params.id];
-
-    db.query(emp.selectById, id, (err, rows)=> {
+    db.query(emp.getSelectById(), id, (err, rows)=> {
         if(err)
         {
             res.status(400).json({errorMessage : err});
@@ -66,7 +100,7 @@ router.get('/employee:id', (req, res) => {
     })
 });
 
-router.post('/employee', (req, res)=> {
+router.post('/employees', (req, res)=> {
 
     //To Do add validate input
     var params = [req.body.first_name, 
@@ -89,7 +123,7 @@ router.post('/employee', (req, res)=> {
     })
 });
 
-router.put('employee:id', (req, res) => {
+router.put('/employees/:id', (req, res) => {
     const params = [req.body.role_id,req.params.id];
 
     db.query(emp.getUpdate(), params, (err, result)=> {
@@ -113,7 +147,7 @@ router.put('employee:id', (req, res) => {
     });
 });
 
-router.delete('/employee:id', (req, res) => {
+router.delete('/employees/:id', (req, res) => {
     var params =[req.params.id];
 
     db.query(emp.getDelete(), params, (err, result) => {
