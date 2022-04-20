@@ -127,7 +127,7 @@ router.post('/employees', (req, res)=> {
 
 router.put('/employees/:id', (req, res) => {
     const params = [req.body.role_id,req.params.id];
-
+    
     db.query(emp.getUpdate(), params, (err, result)=> {
         if(err)
         {
