@@ -8,7 +8,7 @@ var emp = new Employee();
 router.get('/employees', (req, res) => {
     
     let selectQuery='';
-    let params =[];
+    let params;
 
     //Api calls for a single manager, department etc.
     if(req.query.manager)
@@ -37,8 +37,8 @@ router.get('/employees', (req, res) => {
         }
     };
 
-    if(params !=[])
-    {    
+    if(params)
+    {   console.log(params);
         db.query(selectQuery,params,(err, rows) => {
             if(err)
             {
@@ -102,12 +102,14 @@ router.get('/employees/:id', (req, res) => {
 
 router.post('/employees', (req, res)=> {
 
+    //console.log(req);
     //To Do add validate input
-    var params = [req.body.first_name, 
+    const params = [req.body.first_name, 
                   req.body.last_name,
                  req.body.role_id,
                 req.body.manager_id];
     
+    console.log(params);
     db.query(emp.getInsert(), params, (err, result) =>{
         if(err)
         {
@@ -117,7 +119,7 @@ router.post('/employees', (req, res)=> {
 
         res.json({
             message :'success',
-            data: body
+            data: req.body
         })
 
     })
