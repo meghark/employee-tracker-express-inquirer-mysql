@@ -21,7 +21,7 @@ router.get('/departments', (req, res) =>{
     });
 });
 
-router.get('/departments:id',(req, res) => {
+router.get('/departments/:id',(req, res) => {
 
     const params = [req.params.id];
 
@@ -53,12 +53,12 @@ router.post('/departments', (req, res) =>{
 
         res.json({
             message: 'success',
-            data: body
+            data: req.body
         });
     });
 });
 
-router.delete( '/departments:id' ,(req, res) => {
+router.delete( '/departments/:id' ,(req, res) => {
     const params = [req.params.id];
     db.query(dep.getDelete(), params, (err, result) =>{
         if(err)
