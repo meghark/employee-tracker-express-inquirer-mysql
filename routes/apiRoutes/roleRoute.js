@@ -7,7 +7,7 @@ const role = new Role();
 
 router.get('/roles', (req, res) => 
 {
-    db.query(role.getSelect, (err, rows) => {
+    db.query(role.getSelect(), (err, rows) => {
         if(err)
         {
             res.status(500).json({errorMessage: err});
@@ -22,10 +22,10 @@ router.get('/roles', (req, res) =>
 
 });
 
-router.get('/roles:id', (req, res) => {
+router.get('/roles/:id', (req, res) => {
     var id = [req.params.id];
 
-    db.query(role.selectById, id, (err, rows)=> {
+    db.query(role.getSelectById(), id, (err, rows)=> {
         if(err)
         {
             res.status(400).json({errorMessage : err});
@@ -55,14 +55,14 @@ router.post('/roles', (req, res)=> {
 
         res.json({
             message :'success',
-            data: body
+            data: req.body
         })
 
     })
 });
 
 
-router.delete('/roles:id', (req, res) => {
+router.delete('/roles/:id', (req, res) => {
     var params =[req.params.id];
 
     db.query(role.getDelete(), params, (err, result) => {
