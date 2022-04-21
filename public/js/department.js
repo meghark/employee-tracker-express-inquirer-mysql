@@ -32,7 +32,6 @@ const deleteDepartment = (id) => {
 const getDepartmentForChoices = async () => {
     let respone = await getDepartment();
     let {data} = await respone.json();
-    console.log(data);
     let deptChoices =[];
 
     data.forEach(department => {

@@ -1,7 +1,8 @@
 import inquirer from 'inquirer';
 import cTable from 'console.table';
-import {getRoles, getRolesById, createRole,deleteRole} from '../js/role.js';
+import {getRoles, getRolesById, createRole,deleteRole, getRolesForChoices} from '../js/role.js';
 import {getDepartment, getDepartmentById, createDepartment, deleteDepartment, getDepartmentForChoices} from '../js/department.js';
+import { listItem } from 'taiko';
 
 export class UserInput
 {
@@ -75,7 +76,19 @@ export class UserInput
 
     }
 
-    setAddRoleQuestions()
+    getDeleteRoleQuestions()
+    {
+        let questions = [{
+            type: 'list',
+            name: 'role',
+            message: 'Which role would you like to delete?',
+            choices: this.roles
+        }]
+
+        return inquirer.prompt(questions);
+    }
+
+    getAddRoleQuestions()
     {
         let questions =   [{ 
             type: 'input',
@@ -133,20 +146,25 @@ export class UserInput
             case 'Delete employees':
                 this.intializeApp();
                 break;
-            case 'View All Roles':
+            case 'View All Roles':  //done
+                let rows = await getRoles();
+                const tb= cTable.getTable(rows);
+                console.log(tb);
                 this.intializeApp();
                 break;
-            case 'Add Role':
+            case 'Add Role': //done
                 this.departments = await getDepartmentForChoices();
-                let {title, salary, department} = await this.setAddRoleQuestions();
+                let {title, salary, department} = await this.getAddRoleQuestions();
                 let postData = { title : title,
                                 salary: salary,
                                 department_id : department.id};
-                await createRole(postData);
-                
-               this.intializeApp();
+                await createRole(postData);                
+                this.intializeApp();
                 break;
-            case 'Delete roles':
+            case 'Delete roles':   //done
+                this.roles = await getRolesForChoices();
+                let {role} = await this.getDeleteRoleQuestions();
+                await deleteRole(role.id);
                 this.intializeApp();
                 break;
             case 'View All Departments':

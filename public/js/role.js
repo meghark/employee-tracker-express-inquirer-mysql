@@ -1,8 +1,10 @@
 import fetch from "node-fetch";
 const roleUrl = 'http://localhost:3002/api/roles';
 
-const getRoles = () => {   
-    return fetch(roleUrl);   
+const getRoles = async () => {   
+    let result = await fetch(roleUrl);  
+    let {data} = await result.json();    
+    return data;
 };
 
 const getRolesById= (id) => {   
@@ -21,16 +23,32 @@ const createRole = async (newRole) => {
     console.log(result.message);
 };
 
-const deleteRole = (id) => {
-    return fetch(`${roleUrl}/${id}`, {
+const deleteRole = async (id) => {
+    let response = await fetch(`${roleUrl}/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
     });
 
+    let {message} = await response.json();
+    console.log(message);
 };
 
 
+const getRolesForChoices = async() => {
+    let rows = await getRoles();
+    let roleChoices =[];
 
-export {getRoles, getRolesById, createRole, deleteRole};
+    rows.forEach(role => {
+        let current = {
+            name:  role.title,
+            value : role        
+        }
+        roleChoices.push(current);
+    });
+    return roleChoices;
+}
+
+
+export {getRoles, getRolesById, createRole, deleteRole, getRolesForChoices};

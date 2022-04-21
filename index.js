@@ -1,5 +1,5 @@
 import {UserInput} from './public/lib/UserInput.js';
-import cTable from 'console.table';
+
 
 
 console.table({name: 'Employee Manager'});
