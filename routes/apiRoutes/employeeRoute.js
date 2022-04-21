@@ -1,6 +1,7 @@
-const db = require('../../db/connection');
-const Employee = require('../../lib/Employee');
-const router = require('express').Router();
+import express  from 'express';
+import {db} from '../../db/connection.js';
+import {Employee} from '../../lib/Employee.js';
+let router = express.Router();
 
 var emp = new Employee();
 
@@ -78,7 +79,7 @@ router.get('/manager', (req, res) => {
         }
         res.json({
             message: 'success',
-            date: rows
+            data: rows
         });
     })
 });
@@ -172,4 +173,4 @@ router.delete('/employees/:id', (req, res) => {
     });
 });
 
-module.exports = router;
+export {router};

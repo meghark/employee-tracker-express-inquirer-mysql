@@ -2,10 +2,14 @@ import inquirer from 'inquirer';
 import cTable from 'console.table';
 import {getRoles, getRolesById, createRole,deleteRole, getRolesForChoices} from '../js/role.js';
 import {getDepartment, getDepartmentById, createDepartment, deleteDepartment, getDepartmentForChoices} from '../js/department.js';
-import {getEmployee, createEmployee, deleteEmployee,  getManagers}  from  '../js/employee.js';
+import {getEmployee, createEmployee, deleteEmployee,  getManagers, getEmployeesForChoices}  from  '../js/employee.js';
 
 export class UserInput
 {
+    //To Do - Input validation in api methids
+    //Chosing none for manager
+    //Unit tests
+    //Error handling
     
     constructor()
     {
@@ -70,11 +74,19 @@ export class UserInput
             {type: 'list',
             name: 'mgr',
             message: "Who is the employee's manager?",
-            choices: this.managers
+            choices: this.employees
             }
         ];
 
         return inquirer.prompt(questions);
+    }
+
+    getDeleteEmployeeQuestions(){
+        let questions=[{type: 'list',
+                    name: 'emp',
+                    message: 'Which employee would you like to delete?',
+                    choices: this.employees}];
+         return inquirer.prompt(questions);
     }
 
     getAddDepartmentQuestions()
@@ -136,18 +148,19 @@ export class UserInput
        let choice =[];
         switch(operation)
        {
-           case 'Add Employee':
+           case 'Add Employee': //done
                 this.roles = await getRolesForChoices();
-                this.managers = await getManagers();
+                this.employees = await getEmployeesForChoices();
+                this.employees.push('None');
                 let {fname, lname, eRole, mgr} = await this.getAddEmployeeQuestions();
                 let empPostData = { first_name : fname,
                     last_name: lname,
-                    role_id : eRole.role_id,
+                    role_id : eRole.id,
                     manager_id : mgr.id};
                 await createEmployee(empPostData);                
                 this.intializeApp();
                 break;
-            case 'View all Employees':
+            case 'View all Employees': //done
                 let eRows = await getEmployee();
                 const etb= cTable.getTable(eRows);
                 console.log(etb);
@@ -171,6 +184,9 @@ export class UserInput
                 this.intializeApp();
                 break;
             case 'Delete employees':
+                this.employees = await getEmployeesForChoices();
+                let {emp}  = await this.getDeleteEmployeeQuestions();
+                await deleteEmployee(emp.id);
                 this.intializeApp();
                 break;
             case 'View All Roles':  //done

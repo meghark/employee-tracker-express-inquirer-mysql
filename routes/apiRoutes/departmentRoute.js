@@ -1,6 +1,7 @@
-const router = require('express').Router();
-const db= require('../../db/connection');
-const Department = require('../../lib/Department');
+import express  from 'express';
+import {db} from '../../db/connection.js';
+import {Department} from '../../lib/Department.js';
+let router = express.Router();
 
 const dep = new Department();
 
@@ -80,4 +81,5 @@ router.delete( '/departments/:id' ,(req, res) => {
     });
 });
 
-module.exports = router;
+
+export {router};

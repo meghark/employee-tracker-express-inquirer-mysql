@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 const roleUrl = 'http://localhost:3002/api/employees';
-const mgrUrl = 'http://localhost:3002/api/managers';
+const mgrUrl = 'http://localhost:3002/api/manager';
 
 const getEmployee =async () => {
     let result = await fetch(roleUrl);   
@@ -40,14 +40,30 @@ const getManagers = async() => {
 
     data.forEach(mgr => {
         let current = {
-            name: `${mgr.fname} ${mgr.lname}`,
+            name: `${mgr.first_name} ${mgr.l}`,
             value: mgr
         }
-        deptChoices.push(current);
+        mgrChoices.push(current);
     });
 
     return mgrChoices;
 };
+
+const getEmployeesForChoices = async() => {
+    let result = await getEmployee();   
+    let empChoices =[];
+
+    result.forEach(emp => {
+        let current = {
+            name: `${emp.first_name} ${emp.last_name}`,
+            value: emp
+        }
+        empChoices.push(current);
+    });
+
+    return empChoices;
+};
+
 
 const updateEmployee =() => {
 
@@ -62,4 +78,4 @@ const getEmployeeByDepartment =() => {
 
 };
 
-export {getEmployee, createEmployee, deleteEmployee, getManagers};
+export {getEmployee, createEmployee, deleteEmployee, getManagers, getEmployeesForChoices};

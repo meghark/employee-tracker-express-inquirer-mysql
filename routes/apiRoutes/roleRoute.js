@@ -1,6 +1,7 @@
-const router = require('express').Router();
-const db = require('../../db/connection');
-const Role = require('../../lib/Role');
+import express  from 'express';
+import {db} from '../../db/connection.js';
+import {Role} from '../../lib/Role.js';
+let router = express.Router();
 
 const role = new Role();
 
@@ -84,4 +85,4 @@ router.delete('/roles/:id', (req, res) => {
     })
 });   
 
-module.exports= router;
+export {router};

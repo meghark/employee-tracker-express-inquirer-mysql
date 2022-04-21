@@ -1,7 +1,7 @@
-const express = require('express');
-const routes = require('./routes/apiRoutes');
+import express  from 'express';
+import {router} from './routes/apiRoutes/index.js';
 const PORT = process.env.PORT||3002; 
-const db = require('./db/connection');
+import {db} from './db/connection.js';
 //start server
 const app = express();
 
@@ -10,7 +10,7 @@ const app = express();
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
-app.use('/api', routes);
+app.use('/api', router);
 app.use((req, res)=> {
     res.status(404).end();
 })
