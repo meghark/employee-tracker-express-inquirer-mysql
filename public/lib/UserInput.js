@@ -2,7 +2,7 @@ import inquirer from 'inquirer';
 import cTable from 'console.table';
 import {getRoles, getRolesById, createRole,deleteRole, getRolesForChoices} from '../js/role.js';
 import {getDepartment, getDepartmentById, createDepartment, deleteDepartment, getDepartmentForChoices} from '../js/department.js';
-import {getEmployee, createEmployee, deleteEmployee,  getManagers, getEmployeesForChoices}  from  '../js/employee.js';
+import {getEmployee, createEmployee, deleteEmployee,  getManagers, getEmployeesForChoices, updateEmployee}  from  '../js/employee.js';
 
 export class UserInput
 {
@@ -10,12 +10,15 @@ export class UserInput
     //Chosing none for manager
     //Unit tests
     //Error handling
-    
+    //Update messages from api calls
+    //Delete linked records
+
+
     constructor()
     {
         this.departments =[];
-        this.employees =['emp1', 'emp2'];
-        this.roles=['q','e'];
+        this.employees =[];
+        this.roles=[];
         this.managers=[];
         this.options=[{type: 'list',
                           name : 'operation',
@@ -25,18 +28,7 @@ export class UserInput
                                     'View All Roles', 'Add Role', 'Delete roles',
                                     'View All Departments','View department budget','Add Department', 'Delete departments', 'Quit']}];
          
-         this.updateEmployeRole = [{ 
-            type: 'list',
-            name: 'employee',
-            message: "Which employee's role do you want to update?",
-            choices:this.employees
-        },
-        {
-            type: 'list',
-            name: 'role',
-            message: 'Which role do you want to assign the selected employee?',
-            choices: this.role
-         }];
+         this.updateEmployeRole = 
 
          this.managerList = [{
                         type: 'list',
@@ -79,6 +71,24 @@ export class UserInput
         ];
 
         return inquirer.prompt(questions);
+    }
+
+    getUpdateEmployeeQuestions()
+    {
+        let questions = [{ 
+            type: 'list',
+            name: 'empUpdate',
+            message: "Which employee's role do you want to update?",
+            choices:this.employees
+        },
+        {
+            type: 'list',
+            name: 'roleUpdate',
+            message: 'Which role do you want to assign the selected employee?',
+            choices: this.role
+         }];
+
+         return inquirer.prompt(questions);
     }
 
     getDeleteEmployeeQuestions(){
@@ -166,9 +176,13 @@ export class UserInput
                 console.log(etb);
                 this.intializeApp();
                 break;
-            case 'Update Employee Role':
-                choice = await inquirer.prompt(this.updateEmployeRole);
-                console.log(choice);
+            case 'Update Employee Role':  //done
+                this.employees =await getEmployeesForChoices();
+                this.role = await getRolesForChoices();
+                let {empUpdate, roleUpdate} = await this.getUpdateEmployeeQuestions();
+                let empForUpdate = empUpdate.id;
+                let roleForUpdate = {role_id : roleUpdate.id};
+                await updateEmployee(empForUpdate, roleForUpdate);
                 this.intializeApp();
                 break;
             case 'View Employees by Manager':
@@ -183,7 +197,7 @@ export class UserInput
                 console.log(choice);
                 this.intializeApp();
                 break;
-            case 'Delete employees':
+            case 'Delete employees': //done
                 this.employees = await getEmployeesForChoices();
                 let {emp}  = await this.getDeleteEmployeeQuestions();
                 await deleteEmployee(emp.id);

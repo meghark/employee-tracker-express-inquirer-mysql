@@ -64,9 +64,18 @@ const getEmployeesForChoices = async() => {
     return empChoices;
 };
 
+const updateEmployee = async(id, newrole) => {
 
-const updateEmployee =() => {
+    let response = await fetch(`${roleUrl}/${id}`,{
+        method : 'PUT',
+        headers: {
+            'Content-Type' : 'application/json',            
+        },
+        body: JSON.stringify(newrole)
+    })
 
+    let result = await response.json();
+    console.log(result.message);
 };
 
 
@@ -78,4 +87,4 @@ const getEmployeeByDepartment =() => {
 
 };
 
-export {getEmployee, createEmployee, deleteEmployee, getManagers, getEmployeesForChoices};
+export {getEmployee, createEmployee, deleteEmployee, getManagers, getEmployeesForChoices, updateEmployee};
