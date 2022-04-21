@@ -15,7 +15,7 @@ router.get('/roles', (req, res) =>
         }
 
         res.json({
-            message: 'sucess',
+            message: 'success',
             data: rows
         });
     });
@@ -54,7 +54,7 @@ router.post('/roles', (req, res)=> {
         }
 
         res.json({
-            message :'success',
+            message :`New role ${req.body.title} added to database`,
             data: req.body
         })
 

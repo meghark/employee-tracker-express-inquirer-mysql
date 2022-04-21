@@ -1,10 +1,11 @@
-const inquirer = require('inquirer');
-const cTable  = require('console.table');
+import inquirer from 'inquirer';
+import cTable from 'console.table';
+import {getRoles, getRolesById, createRole,deleteRole} from '../js/role.js';
+import {getDepartment, getDepartmentById, createDepartment, deleteDepartment, getDepartmentForChoices} from '../js/department.js';
 
-
-
-class UserInput
+export class UserInput
 {
+    
     constructor()
     {
         this.departments =[];
@@ -21,20 +22,7 @@ class UserInput
         name : 'department',
         message: 'What is the name of the department?'}];
 
-        this.addRole = [{ 
-            type: 'prompt',
-            name: 'rolename',
-            message: 'What is the name of the role?'
-        },
-        {type: 'prompt',
-        name: 'salary',
-        message: 'What is the salary of the role?'
-        },
-        {type: 'list',
-        name: 'department',
-        message: 'What department does the role belong to?',
-        choices: this.department
-        }];
+        
 
         this.addEmployee = [
             { 
@@ -87,12 +75,34 @@ class UserInput
 
     }
 
+    setAddRoleQuestions()
+    {
+        let questions =   [{ 
+            type: 'input',
+            name: 'title',
+            message: 'What is the name of the role?'
+        },
+        {type: 'input',
+        name: 'salary',
+        message: 'What is the salary of the role?'
+        },
+        {type: 'list',
+        name: 'department',
+        message: 'What department does the role belong to?',
+        choices: this.departments
+        }
+    ];
+
+    return inquirer.prompt(questions);
+
+    }
+
+
     async intializeApp()
     {
        let {operation} = await  inquirer.prompt(this.options);
-       let choice ='';
-       console.log(operation);
-       switch(operation)
+       let choice =[];
+        switch(operation)
        {
            case 'Add Employee':
              choice =  await inquirer.prompt(this.addEmployee);
@@ -127,7 +137,14 @@ class UserInput
                 this.intializeApp();
                 break;
             case 'Add Role':
-                this.intializeApp();
+                this.departments = await getDepartmentForChoices();
+                let {title, salary, department} = await this.setAddRoleQuestions();
+                let postData = { title : title,
+                                salary: salary,
+                                department_id : department.id};
+                await createRole(postData);
+                
+               this.intializeApp();
                 break;
             case 'Delete roles':
                 this.intializeApp();
@@ -148,11 +165,7 @@ class UserInput
                 console.log("Thank You For Using Employee Manager!")
                 break;
        }
-
-
     }
 
-  
 }
 
-module.exports = UserInput;

@@ -1,8 +1,18 @@
-const UserInput = require('./public/lib/UserInput');
-const cTable = require('console.table');
+import {UserInput} from './public/lib/UserInput.js';
+import cTable from 'console.table';
+
 
 console.table({name: 'Employee Manager'});
 
 const userInput = new UserInput();
 
-userInput.intializeApp();
+await userInput.intializeApp();
+//  async function  role() { 
+//     let rl =      await userInput.callApi();  
+//     let data = await rl.json();
+//     return data;    
+// } ;
+
+// let output = await role();
+// const tb= cTable.getTable(output.data);
+// console.log(tb);
