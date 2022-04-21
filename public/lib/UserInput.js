@@ -2,7 +2,7 @@ import inquirer from 'inquirer';
 import cTable from 'console.table';
 import {getRoles, getRolesById, createRole,deleteRole, getRolesForChoices} from '../js/role.js';
 import {getDepartment, getDepartmentById, createDepartment, deleteDepartment, getDepartmentForChoices} from '../js/department.js';
-import { listItem } from 'taiko';
+import {getEmployee, createEmployee, deleteEmployee,  getManagers}  from  '../js/employee.js';
 
 export class UserInput
 {
@@ -12,6 +12,7 @@ export class UserInput
         this.departments =[];
         this.employees =['emp1', 'emp2'];
         this.roles=['q','e'];
+        this.managers=[];
         this.options=[{type: 'list',
                           name : 'operation',
                           message: 'What would you like to do?',
@@ -20,30 +21,7 @@ export class UserInput
                                     'View All Roles', 'Add Role', 'Delete roles',
                                     'View All Departments','View department budget','Add Department', 'Delete departments', 'Quit']}];
          
-
-        this.addEmployee = [
-            { 
-                type: 'prompt',
-                name: 'fname',
-                message: "What is the employee's first name?"
-            },
-            {type: 'prompt',
-            name: 'lanme',
-            message: "What is the employee's last name?"
-            },
-            {type: 'list',
-            name: 'erole',
-            message: "What is the employee's role?",
-            choices: this.roles
-            },
-            {type: 'list',
-            name: 'mgr',
-            message: "Who is the employee's manager?",
-            choices: this.employees
-            }
-        ];
-
-        this.updateEmployeRole = [{ 
+         this.updateEmployeRole = [{ 
             type: 'list',
             name: 'employee',
             message: "Which employee's role do you want to update?",
@@ -70,6 +48,33 @@ export class UserInput
             choices : this.employees
     }];
 
+    }
+
+    getAddEmployeeQuestions()
+    {
+        let questions = [
+            { 
+                type: 'prompt',
+                name: 'fname',
+                message: "What is the employee's first name?"
+            },
+            {type: 'prompt',
+            name: 'lname',
+            message: "What is the employee's last name?"
+            },
+            {type: 'list',
+            name: 'eRole',
+            message: "What is the employee's role?",
+            choices: this.roles
+            },
+            {type: 'list',
+            name: 'mgr',
+            message: "Who is the employee's manager?",
+            choices: this.managers
+            }
+        ];
+
+        return inquirer.prompt(questions);
     }
 
     getAddDepartmentQuestions()
@@ -132,14 +137,22 @@ export class UserInput
         switch(operation)
        {
            case 'Add Employee':
-             choice =  await inquirer.prompt(this.addEmployee);
-             console.log(choice);             
-             this.intializeApp();  
-             break;
+                this.roles = await getRolesForChoices();
+                this.managers = await getManagers();
+                let {fname, lname, eRole, mgr} = await this.getAddEmployeeQuestions();
+                let empPostData = { first_name : fname,
+                    last_name: lname,
+                    role_id : eRole.role_id,
+                    manager_id : mgr.id};
+                await createEmployee(empPostData);                
+                this.intializeApp();
+                break;
             case 'View all Employees':
-              console.table(this.employees);
-              this.intializeApp();
-              break;
+                let eRows = await getEmployee();
+                const etb= cTable.getTable(eRows);
+                console.log(etb);
+                this.intializeApp();
+                break;
             case 'Update Employee Role':
                 choice = await inquirer.prompt(this.updateEmployeRole);
                 console.log(choice);
@@ -181,7 +194,7 @@ export class UserInput
                 await deleteRole(role.id);
                 this.intializeApp();
                 break;
-            case 'View All Departments':
+            case 'View All Departments': //done
                 let depts = await getDepartment();
                 const depttb = cTable.getTable(depts);
                 console.log(depttb);
@@ -191,13 +204,13 @@ export class UserInput
                 
                 this.intializeApp();
                 break;
-            case 'Add Department':    
+            case 'Add Department':    //done
                 let dept= await this.getAddDepartmentQuestions();
                 let deptPostData = {name: dept.department};
                 await createDepartment(deptPostData);            
                 this.intializeApp();
                 break;
-            case 'Delete departments':
+            case 'Delete departments': //done
                 this.departments = await getDepartmentForChoices();
                 let {delDepartment} = await this.getDeleteDepartmentQuestions();
                 await deleteDepartment(delDepartment.id);
