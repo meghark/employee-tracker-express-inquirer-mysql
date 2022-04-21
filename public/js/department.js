@@ -1,40 +1,46 @@
 import fetch from "node-fetch";
 const roleUrl = 'http://localhost:3002/api/departments';
 
-const getDepartment = () => {   
-    return fetch(roleUrl);   
+const getDepartment = async () => {   
+    let result = await fetch(roleUrl);   
+    let {data} = await result.json();
+    return data;
 };
 
 const getDepartmentById= (id) => {   
     return fetch(`${roleUrl}/${id}`);   
 };
 
-const createDepartment= (newRole) => {
-    return fetch(roleUrl, {
+const createDepartment= async (dept) => {
+    let respone = await fetch(roleUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newRole),
+        body: JSON.stringify(dept),
     })
+
+    let result = await respone.json();
+    console.log(result.message);
 };
 
-const deleteDepartment = (id) => {
-    return fetch(`${roleUrl}/${id}`, {
+const deleteDepartment =async (id) => {
+    let respone = await fetch(`${roleUrl}/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
     });
 
+    let {message} = await respone.json();
+    console.log(message);
 };
 
 const getDepartmentForChoices = async () => {
     let respone = await getDepartment();
-    let {data} = await respone.json();
-    let deptChoices =[];
+   let deptChoices =[];
 
-    data.forEach(department => {
+   respone.forEach(department => {
             let current = {
                 name: department.name,
                 value: department

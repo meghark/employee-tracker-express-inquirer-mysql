@@ -19,11 +19,7 @@ export class UserInput
                                     'View Employees by Manager', 'View Employees by Department','Delete employees',
                                     'View All Roles', 'Add Role', 'Delete roles',
                                     'View All Departments','View department budget','Add Department', 'Delete departments', 'Quit']}];
-        this.addDepartment = [{type: 'prompt',
-        name : 'department',
-        message: 'What is the name of the department?'}];
-
-        
+         
 
         this.addEmployee = [
             { 
@@ -74,6 +70,24 @@ export class UserInput
             choices : this.employees
     }];
 
+    }
+
+    getAddDepartmentQuestions()
+    {
+        let questions = [{type: 'prompt',
+        name : 'department',
+        message: 'What is the name of the department?'}];
+
+        return inquirer.prompt(questions);
+    }
+
+    getDeleteDepartmentQuestions()
+    {
+        let questions=[{type: 'list',
+                    name: 'delDepartment',
+                    message: 'Which department would you like to delete?',
+                    choices: this.departments}];
+         return inquirer.prompt(questions);
     }
 
     getDeleteRoleQuestions()
@@ -168,15 +182,25 @@ export class UserInput
                 this.intializeApp();
                 break;
             case 'View All Departments':
+                let depts = await getDepartment();
+                const depttb = cTable.getTable(depts);
+                console.log(depttb);
                 this.intializeApp();
                 break;
             case 'View department budget':
+                
                 this.intializeApp();
                 break;
-            case 'Add Department':
+            case 'Add Department':    
+                let dept= await this.getAddDepartmentQuestions();
+                let deptPostData = {name: dept.department};
+                await createDepartment(deptPostData);            
                 this.intializeApp();
                 break;
-            case 'Delete departments':``
+            case 'Delete departments':
+                this.departments = await getDepartmentForChoices();
+                let {delDepartment} = await this.getDeleteDepartmentQuestions();
+                await deleteDepartment(delDepartment.id);
                 this.intializeApp();
                 break;
             default:
