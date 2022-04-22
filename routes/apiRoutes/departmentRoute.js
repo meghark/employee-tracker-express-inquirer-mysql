@@ -81,5 +81,4 @@ router.delete( '/departments/:id' ,(req, res) => {
     });
 });
 
-
 export {router};

@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 const roleUrl = 'http://localhost:3002/api/roles';
+const budgetUrl = 'http://localhost:3002/api/budget';
 
 const getRoles = async () => {   
     let result = await fetch(roleUrl);  
@@ -50,5 +51,10 @@ const getRolesForChoices = async() => {
     return roleChoices;
 }
 
+const getDepartmentBudget = async (id) => {   
+    let result = await fetch(`${budgetUrl}/${id}`);  
+    let {data} = await result.json();    
+    return data;
+};
 
-export {getRoles, getRolesById, createRole, deleteRole, getRolesForChoices};
+export {getRoles, getRolesById, createRole, deleteRole, getRolesForChoices, getDepartmentBudget };

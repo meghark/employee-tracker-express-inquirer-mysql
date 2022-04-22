@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 import cTable from 'console.table';
-import {getRoles, getRolesById, createRole,deleteRole, getRolesForChoices} from '../js/role.js';
+import {getRoles, getRolesById, createRole,deleteRole, getRolesForChoices, getDepartmentBudget} from '../js/role.js';
 import {getDepartment, getDepartmentById, createDepartment, deleteDepartment, getDepartmentForChoices} from '../js/department.js';
 import {getEmployee, createEmployee, deleteEmployee,  
         getManagers, getEmployeesForChoices, updateEmployee, getViewEmployeesByQuery}  from  '../js/employee.js';
@@ -164,6 +164,18 @@ export class UserInput
         return inquirer.prompt(questions);
     }
 
+    getBudgetForDepartment()
+    {
+        let questions = [{
+            type: 'list',
+            name: 'budget',
+            message: 'Pick a department to view budget.',
+            choices: this.departments   
+        }]
+
+        return inquirer.prompt(questions);
+    }
+
     getAddRoleQuestions()
     {
         let questions =   [{ 
@@ -190,7 +202,7 @@ export class UserInput
     async intializeApp()
     {
        let {operation} = await  inquirer.prompt(this.options);
-       let choice =[];
+       
         switch(operation)
        {
            case 'Add Employee': //done
@@ -286,8 +298,11 @@ export class UserInput
                 console.log(depttb);
                 this.intializeApp();
                 break;
-            case 'View department budget':
-                
+            case 'View department budget': //done
+                this.departments = await getDepartmentForChoices();
+                let {budget} = await this.getBudgetForDepartment();
+                let budOutput = await getDepartmentBudget(budget.id);
+                console.log(`Budget for department ${budget.name} is \$${budOutput[0].Budget}`);
                 this.intializeApp();
                 break;
             case 'Add Department':    //done

@@ -62,7 +62,6 @@ router.post('/roles', (req, res)=> {
     })
 });
 
-
 router.delete('/roles/:id', (req, res) => {
     var params =[req.params.id];
 
@@ -84,5 +83,22 @@ router.delete('/roles/:id', (req, res) => {
             }
     })
 });   
+
+router.get('/budget/:id', (req, res) => {
+    var params = [req.params.id];
+
+    db.query(role.getDepartmentBudget(), params , (err, result) => {
+        if(err)
+        {
+            res.status(500).json({errorMessage: err});
+            return;
+        }
+
+        res.json({
+            message: 'success',
+            data: result
+        }); 
+    })
+})
 
 export {router};

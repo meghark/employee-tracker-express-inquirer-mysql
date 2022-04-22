@@ -39,7 +39,7 @@ router.get('/employees', (req, res) => {
     };
 
     if(params)
-    {   console.log(params);
+    {   
         db.query(selectQuery,params,(err, rows) => {
             if(err)
             {
@@ -140,9 +140,6 @@ router.put('/employees/:id', (req, res) => {
         query = emp.getUpdateByManager();
         params = [req.body.manager_id,req.params.id];
     }
-
-    console.log(query);
-    console.log(params);
     
     db.query(query, params, (err, result)=> {
         if(err)
