@@ -27,7 +27,7 @@ export class UserInput
                           choices: ['View all Employees','Add Employee', 'Update Employee Role','Update Employee Managers',
                                     'View Employees by Manager', 'View Employees by Department','Delete employees',
                                     'View All Roles', 'Add Role', 'Delete roles',
-                                    'View All Departments','View department budget','Add Department', 'Delete departments', 'Quit']}];
+                                    'View All Departments','View department used budget','Add Department', 'Delete departments', 'Quit']}];
 
          this.departmentList = [{
             type: 'list',
@@ -169,7 +169,7 @@ export class UserInput
         let questions = [{
             type: 'list',
             name: 'budget',
-            message: 'Pick a department to view budget.',
+            message: 'Which department would you like to see the utilized budget for',
             choices: this.departments   
         }]
 
@@ -298,11 +298,11 @@ export class UserInput
                 console.log(depttb);
                 this.intializeApp();
                 break;
-            case 'View department budget': //done
+            case 'View department used budget': //done
                 this.departments = await getDepartmentForChoices();
                 let {budget} = await this.getBudgetForDepartment();
                 let budOutput = await getDepartmentBudget(budget.id);
-                console.log(`Budget for department ${budget.name} is \$${budOutput[0].Budget}`);
+                console.log(`Total utilized budget for department ${budget.name} is \$${budOutput[0].Budget}`);
                 this.intializeApp();
                 break;
             case 'Add Department':    //done
