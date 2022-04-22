@@ -27,14 +27,7 @@ export class UserInput
                           choices: ['View all Employees','Add Employee', 'Update Employee Role','Update Employee Managers',
                                     'View Employees by Manager', 'View Employees by Department','Delete employees',
                                     'View All Roles', 'Add Role', 'Delete roles',
-                                    'View All Departments','View department used budget','Add Department', 'Delete departments', 'Quit']}];
-
-         this.departmentList = [{
-            type: 'list',
-            name: 'department',
-            message: 'Department List:',
-            choices : this.employees
-    }];
+                                    'View All Departments','View department used budget','Add Department', 'Delete departments', 'Quit']}];     
 
     }
 
@@ -220,6 +213,7 @@ export class UserInput
             case 'View all Employees': //done
                 let eRows = await getEmployee();
                 const etb= cTable.getTable(eRows);
+                console.log('\n');
                 console.log(etb);
                 this.intializeApp();
                 break;

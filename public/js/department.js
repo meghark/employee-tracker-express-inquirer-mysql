@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import chalk from "chalk";
 const roleUrl = 'http://localhost:3002/api/departments';
 
 const getDepartment = async () => {   

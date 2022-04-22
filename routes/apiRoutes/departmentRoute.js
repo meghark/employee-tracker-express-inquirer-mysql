@@ -53,7 +53,7 @@ router.post('/departments', (req, res) =>{
         }
 
         res.json({
-            message: 'success',
+            message: `New department ${req.body.name} created successfully`,
             data: req.body
         });
     });
@@ -69,11 +69,11 @@ router.delete( '/departments/:id' ,(req, res) => {
         }
         else if(!result.affectedRows )
         {
-            res.json({message: "Record not found for delete"});
+            res.json({message: "Department record not found for delete"});
         }
         else{
             res.json({
-                message: 'success',
+                message: `Department deleted successfully`,
                 changes: result.affectedRows,
                 id: req.params.body
             });

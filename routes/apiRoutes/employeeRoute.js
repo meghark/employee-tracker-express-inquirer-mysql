@@ -103,7 +103,6 @@ router.get('/employees/:id', (req, res) => {
 
 router.post('/employees', (req, res)=> {
 
-    //console.log(req);
     //To Do add validate input
     const params = [req.body.first_name, 
                   req.body.last_name,
@@ -119,7 +118,7 @@ router.post('/employees', (req, res)=> {
         }
 
         res.json({
-            message :'success',
+            message : `New employee record created for ${req.body.first_name} ${req.body.last_name}`,
             data: req.body
         })
 
@@ -149,12 +148,12 @@ router.put('/employees/:id', (req, res) => {
         }else if(!result.affectedRows)
         {
             res.json({
-                message: "Candidate not found"
+                message: `Employee record node found for update`
             });
         }
         else {
             res.json({
-                message: 'Success',
+                message: `Employee record updated`,
                 changes : result.affectedRows,
                 data: req.body
             });
@@ -172,11 +171,11 @@ router.delete('/employees/:id', (req, res) => {
             return;
         }else if(!result.affectedRows)
         {
-            res.json({message: "Candidate not found"});
+            res.json({message: "Employee record not found for delete."});
         }
         else{
             res.json({
-                message: 'deleted',
+                message: `Employee record deleted`,
                 changes : result.affectedRows,
                 id: req.params.id
             });

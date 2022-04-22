@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import chalk from "chalk";
 const roleUrl = 'http://localhost:3002/api/employees';
 const mgrUrl = 'http://localhost:3002/api/manager';
 
@@ -18,7 +19,7 @@ const createEmployee = async (emp) => {
     })
 
     let result = await respone.json();
-    console.log(result.message);
+    console.log(chalk.blue(result.message));
 };
 
 const deleteEmployee = async (id) => {
@@ -30,7 +31,7 @@ const deleteEmployee = async (id) => {
     });
 
     let {message} = await respone.json();
-    console.log(message);
+    console.log(chalk.blue(message));
 };
 
 const getManagers = async() => {
@@ -75,7 +76,7 @@ const updateEmployee = async(id, newrole) => {
     })
 
     let result = await response.json();
-    console.log(result.message);
+    console.log(chalk.blue(result.message));
 };
 
 

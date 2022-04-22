@@ -1,6 +1,8 @@
 import fetch from "node-fetch";
+import chalk from "chalk";
 const roleUrl = 'http://localhost:3002/api/roles';
 const budgetUrl = 'http://localhost:3002/api/budget';
+
 
 const getRoles = async () => {   
     let result = await fetch(roleUrl);  
@@ -21,7 +23,7 @@ const createRole = async (newRole) => {
         body: JSON.stringify(newRole),
     })
     let result = await reponse.json();
-    console.log(result.message);
+    console.log(chalk.blue(result.message));
 };
 
 const deleteRole = async (id) => {
@@ -33,7 +35,7 @@ const deleteRole = async (id) => {
     });
 
     let {message} = await response.json();
-    console.log(message);
+    console.log(chalk.blue(message));
 };
 
 

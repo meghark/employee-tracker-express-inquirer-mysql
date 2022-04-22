@@ -1,18 +1,14 @@
 import {UserInput} from './public/lib/UserInput.js';
+import figlet from "figlet";
 
 
-
-console.table({name: 'Employee Manager'});
+console.log(figlet.textSync('Employee Tracker', {
+    horizontalLayout: 'default',
+    verticalLayout: 'default',
+    width: 100,
+    whitespaceBreak: true
+}));
 
 const userInput = new UserInput();
-
+console.log("\n")
 await userInput.intializeApp();
-//  async function  role() { 
-//     let rl =      await userInput.callApi();  
-//     let data = await rl.json();
-//     return data;    
-// } ;
-
-// let output = await role();
-// const tb= cTable.getTable(output.data);
-// console.log(tb);
