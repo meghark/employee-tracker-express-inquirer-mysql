@@ -40,7 +40,7 @@ const getManagers = async() => {
 
     data.forEach(mgr => {
         let current = {
-            name: `${mgr.first_name} ${mgr.l}`,
+            name: `${mgr.first_name} ${mgr.last_name}`,
             value: mgr
         }
         mgrChoices.push(current);
@@ -65,7 +65,7 @@ const getEmployeesForChoices = async() => {
 };
 
 const updateEmployee = async(id, newrole) => {
-
+    console.log(id, newrole);
     let response = await fetch(`${roleUrl}/${id}`,{
         method : 'PUT',
         headers: {
@@ -79,12 +79,21 @@ const updateEmployee = async(id, newrole) => {
 };
 
 
-const getEmployeeByManager =() => {
-
+const getViewEmployeesByQuery =async (query) => {
+    let url ='';
+  
+    if(query.manager)
+    {
+         url=`${roleUrl}?manager=${query.query}`;
+    }
+    else if(query.department)
+    {
+        url = `${roleUrl}?department=${query.query}`;
+    }
+    
+    let reponse = await fetch(url);
+    let {data} = await reponse.json();
+    return data;
 };
 
-const getEmployeeByDepartment =() => {
-
-};
-
-export {getEmployee, createEmployee, deleteEmployee, getManagers, getEmployeesForChoices, updateEmployee};
+export {getEmployee, createEmployee, deleteEmployee, getManagers, getEmployeesForChoices, updateEmployee, getViewEmployeesByQuery};

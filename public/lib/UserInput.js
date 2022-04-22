@@ -2,7 +2,8 @@ import inquirer from 'inquirer';
 import cTable from 'console.table';
 import {getRoles, getRolesById, createRole,deleteRole, getRolesForChoices} from '../js/role.js';
 import {getDepartment, getDepartmentById, createDepartment, deleteDepartment, getDepartmentForChoices} from '../js/department.js';
-import {getEmployee, createEmployee, deleteEmployee,  getManagers, getEmployeesForChoices, updateEmployee}  from  '../js/employee.js';
+import {getEmployee, createEmployee, deleteEmployee,  
+        getManagers, getEmployeesForChoices, updateEmployee, getViewEmployeesByQuery}  from  '../js/employee.js';
 
 export class UserInput
 {
@@ -27,15 +28,6 @@ export class UserInput
                                     'View Employees by Manager', 'View Employees by Department','Delete employees',
                                     'View All Roles', 'Add Role', 'Delete roles',
                                     'View All Departments','View department budget','Add Department', 'Delete departments', 'Quit']}];
-         
-         this.updateEmployeRole = 
-
-         this.managerList = [{
-                        type: 'list',
-                        name: 'manager',
-                        message: 'Manager List:',
-                        choices : this.employees
-         }];      
 
          this.departmentList = [{
             type: 'list',
@@ -87,6 +79,49 @@ export class UserInput
             message: 'Which role do you want to assign the selected employee?',
             choices: this.role
          }];
+
+         return inquirer.prompt(questions);
+    }
+
+    getUpdateEmployeeMgrQuestions()
+    {
+        let questions = [{ 
+            type: 'list',
+            name: 'empModify',
+            message: "Which employee's manager do you want to update?",
+            choices:this.employees
+        },
+        {
+            type: 'list',
+            name: 'mgrUpdate',
+            message: "Who is the employee's new manager?",
+            choices: this.managers
+         }];
+
+         return inquirer.prompt(questions);
+    }
+
+
+    getViewEmployeesByManagerQuestion(){
+
+        let questions = [{
+            type: 'list',
+            name: 'manager',
+            message: 'Who would you like to see reportees for:',
+            choices : this.managers
+         }]; 
+
+         return inquirer.prompt(questions);
+    }
+
+    getViewEmployeesByDepartmentQuestion(){
+
+        let questions = [{
+            type: 'list',
+            name: 'depSelected',
+            message: 'Which department would you like to see employees for?',
+            choices : this.departments
+         }]; 
 
          return inquirer.prompt(questions);
     }
@@ -185,16 +220,37 @@ export class UserInput
                 await updateEmployee(empForUpdate, roleForUpdate);
                 this.intializeApp();
                 break;
-            case 'View Employees by Manager':
-                console.log("Choose Manager to show employees");
-                choice = await inquirer.prompt(this.managerList);
-                console.log(choice);
+            case 'Update Employee Managers':  //done
+                this.employees =await getEmployeesForChoices();
+                this.managers = await getManagers();
+                let {empModify, mgrUpdate} = await this.getUpdateEmployeeMgrQuestions();
+                let empForDeptUpdate = empModify.id;
+                let mgrForUpdate = {manager_id : mgrUpdate.id};
+                await updateEmployee(empForDeptUpdate, mgrForUpdate);
                 this.intializeApp();
                 break;
-            case 'View Employees by Department':
-                console.log("Choose department to show employees");
-                choice = await inquirer.prompt(this.departmentList);
-                console.log(choice);
+            case 'View Employees by Manager': //done
+                this.managers = await getManagers();               
+                let {manager} = await this.getViewEmployeesByManagerQuestion();
+                let inputQuery = {
+                    manager: true,
+                    query : manager.id
+                }
+                let empOutput = await getViewEmployeesByQuery(inputQuery);
+                const tableForDisplay = cTable.getTable(empOutput);
+                console.log(tableForDisplay);
+                this.intializeApp();
+                break;
+            case 'View Employees by Department': //done
+                this.departments = await getDepartmentForChoices();               
+                let {depSelected} = await this.getViewEmployeesByDepartmentQuestion();
+                let deptQuery = {
+                    department: true,
+                    query : depSelected.id
+                }
+                let deptOut = await getViewEmployeesByQuery(deptQuery);
+                const displayTable = cTable.getTable(deptOut);
+                console.log(displayTable);
                 this.intializeApp();
                 break;
             case 'Delete employees': //done

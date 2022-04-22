@@ -127,9 +127,24 @@ router.post('/employees', (req, res)=> {
 });
 
 router.put('/employees/:id', (req, res) => {
-    const params = [req.body.role_id,req.params.id];
+    let query ='';
+    let params = '';
+
+    if(req.body.role_id)
+    {
+        query = emp.getUpdate();
+        params = [req.body.role_id,req.params.id];
+
+    }else if(req.body.manager_id)
+    {
+        query = emp.getUpdateByManager();
+        params = [req.body.manager_id,req.params.id];
+    }
+
+    console.log(query);
+    console.log(params);
     
-    db.query(emp.getUpdate(), params, (err, result)=> {
+    db.query(query, params, (err, result)=> {
         if(err)
         {
             res.status(400).json({errorMessage: err});
