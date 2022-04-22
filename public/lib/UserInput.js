@@ -1,7 +1,7 @@
 import inquirer from 'inquirer';
 import cTable from 'console.table';
-import {getRoles, getRolesById, createRole,deleteRole, getRolesForChoices, getDepartmentBudget} from '../js/role.js';
-import {getDepartment, getDepartmentById, createDepartment, deleteDepartment, getDepartmentForChoices} from '../js/department.js';
+import {getRoles,  createRole,deleteRole, getRolesForChoices, getDepartmentBudget} from '../js/role.js';
+import {getDepartment,  createDepartment, deleteDepartment, getDepartmentForChoices} from '../js/department.js';
 import {getEmployee, createEmployee, deleteEmployee,  
         getManagers, getEmployeesForChoices, updateEmployee, getViewEmployeesByQuery}  from  '../js/employee.js';
 
