@@ -1,6 +1,6 @@
 import express  from 'express';
 import {db} from '../../db/connection.js';
-import {Role} from '../../lib/Role.js';
+import {Role} from '../../models/Role.js';
 let router = express.Router();
 
 const role = new Role();

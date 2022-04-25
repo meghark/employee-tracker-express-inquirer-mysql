@@ -1,6 +1,6 @@
 import express  from 'express';
 import {db} from '../../db/connection.js';
-import {Department} from '../../lib/Department.js';
+import {Department} from '../../models/Department.js';
 let router = express.Router();
 
 const dep = new Department();

@@ -1,6 +1,6 @@
 import express  from 'express';
 import {db} from '../../db/connection.js';
-import {Employee} from '../../lib/Employee.js';
+import {Employee} from '../../models/Employee.js';
 let router = express.Router();
 
 var emp = new Employee();
