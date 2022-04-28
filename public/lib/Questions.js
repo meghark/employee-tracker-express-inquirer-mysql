@@ -1,8 +1,7 @@
 import inquirer from 'inquirer';
-import {getRoles,  createRole,deleteRole, getRolesForChoices, getDepartmentBudget} from '../js/role.js';
-import {getDepartment,  createDepartment, deleteDepartment, getDepartmentForChoices} from '../js/department.js';
-import {getEmployee, createEmployee, deleteEmployee,  
-        getManagers, getEmployeesForChoices, updateEmployee, getViewEmployeesByQuery}  from  '../js/employee.js';
+import {getRolesForChoices} from '../js/role.js';
+import {getDepartmentForChoices} from '../js/department.js';
+import {getManagers, getEmployeesForChoices}  from  '../js/employee.js';
 
 export  class questions
 {

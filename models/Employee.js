@@ -1,4 +1,5 @@
-//Class created to perform sql operation
+//Class created to perform sql operations on all employee table.
+//The class inherits common methods from TableQuery
 import {TableQuery} from "./TableQuery.js";
 
  class Employee extends TableQuery

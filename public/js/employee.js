@@ -1,16 +1,20 @@
 import fetch from "node-fetch";
 import chalk from "chalk";
-const roleUrl = 'http://localhost:3002/api/employees';
-const mgrUrl = 'http://localhost:3002/api/manager';
+
+dotenv.config();
+
+const url = process.env.URL;
+const empUrl = `${url}/api/departments`;
+const mgrUrl = `${url}/api/manager`;
 
 const getEmployee =async () => {
-    let result = await fetch(roleUrl);   
+    let result = await fetch(empUrl);   
     let {data} = await result.json();
     return data;
 };
 
 const createEmployee = async (emp) => {
-    let respone = await fetch(roleUrl, {
+    let respone = await fetch(empUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -23,7 +27,7 @@ const createEmployee = async (emp) => {
 };
 
 const deleteEmployee = async (id) => {
-    let respone = await fetch(`${roleUrl}/${id}`, {
+    let respone = await fetch(`${empUrl}/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -67,7 +71,7 @@ const getEmployeesForChoices = async() => {
 
 const updateEmployee = async(id, newrole) => {
     console.log(id, newrole);
-    let response = await fetch(`${roleUrl}/${id}`,{
+    let response = await fetch(`${empUrl}/${id}`,{
         method : 'PUT',
         headers: {
             'Content-Type' : 'application/json',            
@@ -81,18 +85,18 @@ const updateEmployee = async(id, newrole) => {
 
 
 const getViewEmployeesByQuery =async (query) => {
-    let url ='';
+    let currentUrl ='';
   
     if(query.manager)
     {
-         url=`${roleUrl}?manager=${query.query}`;
+         currentUrl=`${empUrl}?manager=${query.query}`;
     }
     else if(query.department)
     {
-        url = `${roleUrl}?department=${query.query}`;
+        currentUrl = `${empUrl}?department=${query.query}`;
     }
     
-    let reponse = await fetch(url);
+    let reponse = await fetch(currentUrl);
     let {data} = await reponse.json();
     return data;
 };

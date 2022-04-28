@@ -1,4 +1,6 @@
- class TableQuery
+//Class created to handle common attributes and methods used by table classes.
+
+class TableQuery
  {
      constructor()
      {

@@ -1,6 +1,8 @@
 import express  from 'express';
 import {router} from './routes/apiRoutes/index.js';
-const PORT = process.env.PORT||3002; 
+dotenv.config();
+
+const PORT = process.env.PORT||process.env.LOCAL_PORT; 
 import {db} from './db/connection.js';
 //start server
 const app = express();

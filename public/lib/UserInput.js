@@ -9,10 +9,6 @@ import chalk from "chalk";
 
 export class UserInput extends questions
 {
-    //Error handling
-    //Update messages from api calls
-    //Delete linked records
-
     constructor()
     {        
         super();

@@ -1,7 +1,10 @@
 import fetch from "node-fetch";
 import chalk from "chalk";
-const roleUrl = 'http://localhost:3002/api/roles';
-const budgetUrl = 'http://localhost:3002/api/budget';
+dotenv.config();
+
+const url = process.env.URL;
+const roleUrl = `${url}/api/roles`;
+const budgetUrl = `${url}/api/budget`;
 
 
 const getRoles = async () => {   

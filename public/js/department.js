@@ -1,6 +1,10 @@
+
 import fetch from "node-fetch";
-import chalk from "chalk";
-const roleUrl = 'http://localhost:3002/api/departments';
+dotenv.config();
+
+const url = process.env.URL;
+
+const roleUrl = `${url}/api/departments`;
 
 const getDepartment = async () => {   
     let result = await fetch(roleUrl);   
