@@ -1,4 +1,6 @@
- Class TableQuery
+//Class created to handle common attributes and methods used by table classes.
+
+class TableQuery
  {
      constructor()
      {
@@ -6,6 +8,7 @@
          this.insert ='';
          this.selectById ='';
          this.delete= '';
+         this.update= '';
      }
 
      getSelect()
@@ -27,6 +30,15 @@
     {
         return this.delete;
     }
+
+    getUpdate()
+    {
+        return this.update;
+    }
+
+  
  }
 
- module.exports =TableQuery;
+
+
+ export {TableQuery};

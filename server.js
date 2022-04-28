@@ -1,16 +1,20 @@
-const express = require('express');
-const routes = require('./routes/apiRoutes');
-const PORT = process.env.PORT||3002; 
-const db = require('./db/connection');
+//This command file will run the backend.
+
+import express  from 'express';
+import {router} from './routes/apiRoutes/index.js';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const PORT = process.env.PORT||process.env.LOCAL_PORT; 
+import {db} from './db/connection.js';
 //start server
 const app = express();
-
 
 //middleware setup
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
-app.use('/api', routes);
+app.use('/api', router);
 app.use((req, res)=> {
     res.status(404).end();
 })

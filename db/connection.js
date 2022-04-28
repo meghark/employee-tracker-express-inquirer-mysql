@@ -1,11 +1,14 @@
-const mysql = require('mysql2');
+import mysql from 'mysql2';
+import dotenv from 'dotenv';
+dotenv.config();
 
+// Used dotenv to parametrise connection credentials
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: 'kumcox-xItton-6dezwo',
-    database: 'employee'
+    user: process.env.DB_USER,
+    password: process.env.DB_PW,
+    database: process.env.DB_NAME
 });
 
 
-module.exports =db;
+export {db};
