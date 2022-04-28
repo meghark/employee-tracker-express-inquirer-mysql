@@ -1,12 +1,12 @@
 import express  from 'express';
 import {router} from './routes/apiRoutes/index.js';
+import dotenv from 'dotenv';
 dotenv.config();
 
 const PORT = process.env.PORT||process.env.LOCAL_PORT; 
 import {db} from './db/connection.js';
 //start server
 const app = express();
-
 
 //middleware setup
 app.use(express.urlencoded({extended: false}));

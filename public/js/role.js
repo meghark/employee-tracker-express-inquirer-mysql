@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 import chalk from "chalk";
+import dotenv from 'dotenv';
 dotenv.config();
 
 const url = process.env.URL;

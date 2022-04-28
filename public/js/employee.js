@@ -1,10 +1,10 @@
 import fetch from "node-fetch";
 import chalk from "chalk";
-
+import dotenv from 'dotenv';
 dotenv.config();
 
 const url = process.env.URL;
-const empUrl = `${url}/api/departments`;
+const empUrl = `${url}/api/employees`;
 const mgrUrl = `${url}/api/manager`;
 
 const getEmployee =async () => {

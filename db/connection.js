@@ -1,5 +1,5 @@
 import mysql from 'mysql2';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 dotenv.config();
 
 // Used dotenv to parametrise connection credentials
