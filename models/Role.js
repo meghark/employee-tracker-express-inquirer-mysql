@@ -10,7 +10,7 @@ import {TableQuery} from "./TableQuery.js";
          this.insert = `INSERT INTO role(title, salary, department_id) VALUES (?,?,?);`;
          this.selectById = `SELECT * FROM role WHERE id = ?`;
          this.delete =  `DELETE FROM role WHERE id = ?`;
-         this.deptBudget = `SELECT SUM(salary) as Budget FROM role WHERE department_id = ?`
+         this.deptBudget = `SELECT SUM(salary) as Budget FROM role join employee on employee.role_id = role.id WHERE department_id = ?`
          
      }    ;
 
