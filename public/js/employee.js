@@ -30,7 +30,7 @@ const createEmployee = async (emp) => {
     })
 
     let result = await respone.json();
-    console.log(chalk.blue(result.message));
+    return result;   
 };
 
 //Delete an employee
@@ -42,8 +42,8 @@ const deleteEmployee = async (id) => {
         },
     });
 
-    let {message} = await respone.json();
-    console.log(chalk.blue(message));
+    let result = await respone.json();
+    return result;
 };
 
 //Get a list of employees who are managers
@@ -81,18 +81,17 @@ const getEmployeesForChoices = async() => {
 };
 
 //Update an employee record
-const updateEmployee = async(id, newrole) => {
-    console.log(id, newrole);
+const updateEmployee = async(id, newvalues) => {
     let response = await fetch(`${empUrl}/${id}`,{
         method : 'PUT',
         headers: {
             'Content-Type' : 'application/json',            
         },
-        body: JSON.stringify(newrole)
+        body: JSON.stringify(newvalues)
     })
 
     let result = await response.json();
-    console.log(chalk.blue(result.message));
+    return result;   
 };
 
 

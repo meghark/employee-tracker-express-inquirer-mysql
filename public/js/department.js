@@ -31,7 +31,7 @@ const createDepartment= async (dept) => {
     })
 
     let result = await respone.json();
-    console.log(result.message);
+    return result;
 };
 
 //Delete a new department
@@ -43,8 +43,8 @@ const deleteDepartment =async (id) => {
         },
     });
 
-    let {message} = await respone.json();
-    console.log(message);
+    let result = await respone.json();
+    return result;
 };
 
 //The following method returns a list of department names only. 

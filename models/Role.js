@@ -7,9 +7,12 @@ import {TableQuery} from "./TableQuery.js";
     
      constructor(){
         super();
-         this.select = `SELECT * FROM role;`;
-         this.insert = `INSERT INTO role(title, salary, department_id) VALUES (?,?,?);`;
-         this.selectById = `SELECT * FROM role WHERE id = ?`;
+        this.commonSelect =  `SELECT  rl.id, rl.title ,dep.name as department ,rl.salary  
+                        FROM role rl 
+                        left join department dep on dep.id = rl.department_id`;
+        this.select = `${this.commonSelect};`;
+        this.insert = `INSERT INTO role(title, salary, department_id) VALUES (?,?,?);`;
+        this.selectById = `${this.commonSelect} WHERE id = ?`;
          this.delete =  `DELETE FROM role WHERE id = ?`;
          
          //To get a departments used budget, find all employees in that department.

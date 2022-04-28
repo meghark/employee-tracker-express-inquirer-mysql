@@ -7,9 +7,16 @@ import {TableQuery} from "./TableQuery.js";
      
      constructor(){
         super();
-         this.select = `SELECT * FROM employee;`;
+        this.commonSelectFields =`SELECT emp.id, emp.first_name, emp.last_name, 
+                        rl.title,dp.name as department, rl.salary,
+                        concat(mgr.first_name ," " ,mgr.last_name) as manager
+                        FROM employee emp 
+                        left join role rl on emp.role_id = rl.id 
+                        left join department dp on dp.id = rl.department_id
+                        left join employee mgr on emp.manager_id = mgr.id`;
+         this.select = `${this.commonSelectFields};`;
          this.insert = `INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES (?,?,?,?);`;
-         this.selectById = `SELECT * FROM employee WHERE id = ?`;
+         this.selectById = `${this.commonSelectFields} WHERE id = ?;`;
          this.delete =  `DELETE FROM employee WHERE id = ?`;
          this.update = `UPDATE employee set role_id =? where id= ?;`;
          this.updateByMgr = `UPDATE employee set manager_id =? where id= ?;`;

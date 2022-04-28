@@ -34,7 +34,7 @@ const createRole = async (newRole) => {
         body: JSON.stringify(newRole),
     })
     let result = await reponse.json();
-    console.log(chalk.blue(result.message));
+    return result;
 };
 
 //Delete a role
@@ -46,8 +46,8 @@ const deleteRole = async (id) => {
         },
     });
 
-    let {message} = await response.json();
-    console.log(chalk.blue(message));
+    let result = await response.json();
+    return result;
 };
 
 //The following method returns a list of role names only. 
