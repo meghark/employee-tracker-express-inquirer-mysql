@@ -1,3 +1,6 @@
+//This class handles all the questions that are prompted in inquirer prompt.
+//Each method returns a set of questions to display based on user choices.
+
 import inquirer from 'inquirer';
 import {getRolesForChoices} from '../js/role.js';
 import {getDepartmentForChoices} from '../js/department.js';
@@ -93,8 +96,7 @@ export  class questions
     async getUpdateEmployeeMgrQuestions()
     {
         this.employees =await getEmployeesForChoices();
-        //this.managers = await getManagers();
-          let questions = [{ 
+              let questions = [{ 
             type: 'list',
             name: 'empModify',
             message: "Which employee's manager do you want to update?",

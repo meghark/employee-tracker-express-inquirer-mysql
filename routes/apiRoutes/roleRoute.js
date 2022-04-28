@@ -5,7 +5,7 @@ let router = express.Router();
 
 const role = new Role();
 
-
+//get all roles
 router.get('/roles', (req, res) => 
 {
     db.query(role.getSelect(), (err, rows) => {
@@ -23,6 +23,7 @@ router.get('/roles', (req, res) =>
 
 });
 
+//get role by an id
 router.get('/roles/:id', (req, res) => {
     var id = [req.params.id];
 
@@ -40,6 +41,7 @@ router.get('/roles/:id', (req, res) => {
     })
 });
 
+//Create role
 router.post('/roles', (req, res)=> {
 
     //To Do add validate input
@@ -62,6 +64,7 @@ router.post('/roles', (req, res)=> {
     })
 });
 
+//Delete a role
 router.delete('/roles/:id', (req, res) => {
     var params =[req.params.id];
 
@@ -84,6 +87,7 @@ router.delete('/roles/:id', (req, res) => {
     })
 });   
 
+//Get the used budget for each department
 router.get('/budget/:id', (req, res) => {
     var params = [req.params.id];
 

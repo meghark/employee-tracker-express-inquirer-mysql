@@ -1,9 +1,12 @@
+//This class extends the questions class and does the actual dispay of the questions.
+//Also handles responses to the questions.
+
 import inquirer from 'inquirer';
 import cTable from 'console.table';
-import {getRoles,  createRole,deleteRole, getRolesForChoices, getDepartmentBudget} from '../js/role.js';
-import {getDepartment,  createDepartment, deleteDepartment, getDepartmentForChoices} from '../js/department.js';
+import {getRoles,  createRole,deleteRole,  getDepartmentBudget} from '../js/role.js';
+import {getDepartment,  createDepartment, deleteDepartment} from '../js/department.js';
 import {getEmployee, createEmployee, deleteEmployee,  
-        getManagers, getEmployeesForChoices, updateEmployee, getViewEmployeesByQuery}  from  '../js/employee.js';
+         updateEmployee, getViewEmployeesByQuery}  from  '../js/employee.js';
 import { questions } from './Questions.js';
 import chalk from "chalk";
 

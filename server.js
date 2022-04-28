@@ -1,3 +1,5 @@
+//This command file will run the backend.
+
 import express  from 'express';
 import {router} from './routes/apiRoutes/index.js';
 import dotenv from 'dotenv';

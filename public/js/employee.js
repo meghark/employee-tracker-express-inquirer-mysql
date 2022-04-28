@@ -1,3 +1,8 @@
+//All api calls to departments route are handled below.
+//Using node-fetch package to make calls. 
+//using dotenv for enviroment variables
+//Chalk to display messages in various colors
+
 import fetch from "node-fetch";
 import chalk from "chalk";
 import dotenv from 'dotenv';
@@ -7,12 +12,14 @@ const url = process.env.URL;
 const empUrl = `${url}/api/employees`;
 const mgrUrl = `${url}/api/manager`;
 
+//Get all employees
 const getEmployee =async () => {
     let result = await fetch(empUrl);   
     let {data} = await result.json();
     return data;
 };
 
+//create a new employee
 const createEmployee = async (emp) => {
     let respone = await fetch(empUrl, {
         method: 'POST',
@@ -26,6 +33,7 @@ const createEmployee = async (emp) => {
     console.log(chalk.blue(result.message));
 };
 
+//Delete an employee
 const deleteEmployee = async (id) => {
     let respone = await fetch(`${empUrl}/${id}`, {
         method: 'DELETE',
@@ -38,6 +46,7 @@ const deleteEmployee = async (id) => {
     console.log(chalk.blue(message));
 };
 
+//Get a list of employees who are managers
 const getManagers = async() => {
     let result = await fetch(mgrUrl);   
     let {data} = await result.json();
@@ -54,6 +63,8 @@ const getManagers = async() => {
     return mgrChoices;
 };
 
+//The following method returns a list of emplpoyee names only. 
+//This method will be used to provide a list of available employees to choose from at the command prompt.
 const getEmployeesForChoices = async() => {
     let result = await getEmployee();   
     let empChoices =[];
@@ -69,6 +80,7 @@ const getEmployeesForChoices = async() => {
     return empChoices;
 };
 
+//Update an employee record
 const updateEmployee = async(id, newrole) => {
     console.log(id, newrole);
     let response = await fetch(`${empUrl}/${id}`,{
@@ -84,6 +96,7 @@ const updateEmployee = async(id, newrole) => {
 };
 
 
+//Get all employees by query parameters
 const getViewEmployeesByQuery =async (query) => {
     let currentUrl ='';
   

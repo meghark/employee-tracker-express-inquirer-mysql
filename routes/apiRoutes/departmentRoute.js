@@ -5,6 +5,7 @@ let router = express.Router();
 
 const dep = new Department();
 
+//Get all departments
 router.get('/departments', (req, res) =>{
     db.query(dep.getSelect(), (err,results) =>{
         if(err)
@@ -22,6 +23,7 @@ router.get('/departments', (req, res) =>{
     });
 });
 
+//get a single department by id
 router.get('/departments/:id',(req, res) => {
 
     const params = [req.params.id];
@@ -40,7 +42,7 @@ router.get('/departments/:id',(req, res) => {
 
 });
 
-
+//Create a department
 router.post('/departments', (req, res) =>{
     const params =[req.body.name];
 
@@ -59,6 +61,7 @@ router.post('/departments', (req, res) =>{
     });
 });
 
+//Delete a department
 router.delete( '/departments/:id' ,(req, res) => {
     const params = [req.params.id];
     db.query(dep.getDelete(), params, (err, result) =>{
