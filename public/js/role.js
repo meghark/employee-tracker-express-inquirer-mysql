@@ -4,7 +4,6 @@
 //Chalk to display messages in various colors
 
 import fetch from "node-fetch";
-import chalk from "chalk";
 import dotenv from 'dotenv';
 dotenv.config();
 
