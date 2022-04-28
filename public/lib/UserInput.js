@@ -9,8 +9,6 @@ import chalk from "chalk";
 
 export class UserInput extends questions
 {
-    //To Do - Input validation in api method
-    //Unit tests
     //Error handling
     //Update messages from api calls
     //Delete linked records

@@ -72,7 +72,7 @@ router.delete('/roles/:id', (req, res) => {
             return;
         }else if(!result.affectedRows)
         {
-            res.json({message: "Role record not found for deletion"});
+            res.json({message: "Role record not found"});
         }
         else{
             res.json({

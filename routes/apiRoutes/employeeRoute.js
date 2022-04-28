@@ -148,7 +148,7 @@ router.put('/employees/:id', (req, res) => {
         }else if(!result.affectedRows)
         {
             res.json({
-                message: `Employee record node found for update`
+                message: `Employee record not found`
             });
         }
         else {
@@ -171,7 +171,7 @@ router.delete('/employees/:id', (req, res) => {
             return;
         }else if(!result.affectedRows)
         {
-            res.json({message: "Employee record not found for delete."});
+            res.json({message: "Employee record not found"});
         }
         else{
             res.json({
